@@ -1,0 +1,48 @@
+<!-- 防抖（debounce） 是一种用来 控制函数执行频率 的技术手段，核心思想是：
+
+在事件被触发后，等待一段时间，如果在这段时间内事件没有再次被触发，才执行函数；如果在该时间内事件又被触发了，则重新计时。
+
+简单来说就是：“等一等，别着急执行，如果后面还触发，就再等等” -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>throttle</title>
+    <style>
+      .btn {
+        width: 100px;
+        height: 100px;
+        background: red;
+        border: none;
+      }
+    </style>
+  </head>
+  <body>
+    <button class="btn" onclick="thClick()">click-debounce</button>
+  </body>
+  <script>
+    const throttle = (fn, delay) => {
+      let timer = null;
+
+      return function (...args) {
+        // 没定时器开启定时器
+        if (!timer) {
+          timer = setTimeout(() => {
+            fn.apply(this, args);
+            // 执行完清除定时器，也就是一个周期内只会有一次创建动作
+            clearTimeout(timer);
+            timer = null;
+          }, delay);
+        }
+      };
+    };
+
+    const debounceClick = () => {
+      console.log("click");
+    };
+
+    const thClick = throttle(debounceClick, 1000);
+  </script>
+</html>

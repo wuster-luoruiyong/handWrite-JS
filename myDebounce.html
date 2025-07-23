@@ -1,0 +1,47 @@
+<!-- 节流（throttle） 是指：
+
+在一定时间间隔内，最多只执行一次某个函数。如果在这个时间间隔内多次触发该函数，只有第一次会执行，后续的触发会被忽略，直到过了这个时间段后，才能再次执行。
+
+可以理解为：
+
+“在一段时间内，只放行一次，就像水龙头被节流控制，不会一直大量放水。” -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>debounce</title>
+    <style>
+      .btn {
+        width: 100px;
+        height: 100px;
+        background: red;
+        border: none;
+      }
+    </style>
+  </head>
+  <body>
+    <button class="btn" onclick="dbClick()">click-debounce</button>
+  </body>
+  <script>
+    const debounce = (fn, delay) => {
+      let timer = null;
+      return function (...args) {
+		// 有定时器清除定时器，并重建定时器
+        if (timer) {
+          clearTimeout(timer);
+        }
+		// 周期会重置，所以只会执行最后一次点击事件
+        timer = setTimeout(() => {
+          fn.apply(this, args);
+        }, delay);
+      };
+    };
+
+    const debounceClick = () => {
+      console.log("click");
+    };
+
+    const dbClick = debounce(debounceClick, 1000);
+  </script>
+</html>
